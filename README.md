@@ -8,37 +8,19 @@ dependencies, you can host it in any server environment, or on your local machin
 How to Use It
 -------------
 
-```bash
-wget https://github.com/downloads/wordnik/swagger-ui/swagger-ui-1.0.zip
-unzip swagger-ui-1.0.zip
-open swagger-ui-1.0/index.html
-```
 
 How to Improve It
 -----------------
 
-First, create your own fork of [wordnik/swagger-ui](https://github.com/wordnik/swagger-ui)
+Create your own fork of [wordnik/swagger-ui](https://github.com/wordnik/swagger-ui)
 
-To hack on swagger-ui, you'll need ruby. Then..
-
-```bash
-# Install the middleman gem:
-gem install middleman
-
-# Start up a development server on http://localhost:4567
-middleman
-
-# Edit the files in `/source`
-# Then when you're ready to build, run:
-middleman build
-```
 
 To share your changes, [submit a pull request](https://github.com/wordnik/swagger-ui/pull/new/master).
 
 License
 -------
 
-Copyright 2011 Wordnik, Inc.
+Copyright 2011-2012 Wordnik, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
