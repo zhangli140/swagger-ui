@@ -14,7 +14,6 @@ How to Improve It
 
 Create your own fork of [wordnik/swagger-ui](https://github.com/wordnik/swagger-ui)
 
-
 To share your changes, [submit a pull request](https://github.com/wordnik/swagger-ui/pull/new/master).
 
 License
