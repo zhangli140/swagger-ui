@@ -24,7 +24,7 @@ class SwaggerUi
 
     # TODO: Precompile this template to reduce filesize and increase performance
     # http://handlebarsjs.com/precompilation.html
-    # template = Handlebars.compile(window.swagger_template)
+    # template = Handlebars.compile(window.swagger_template) 
     
     # $("##{@dom_id}").append(template(@api))
     

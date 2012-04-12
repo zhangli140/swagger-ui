@@ -16,9 +16,9 @@ describe 'SwaggerUi', ->
       runs ->
         expect(ui.ready).toBe(true)
         
-    it "defines window.swagger_template", ->
+    it "has access to the precompiled Handlebars template", ->
       runs ->
-        expect(window.swagger_template).toBeDefined() 
+        expect(Handlebars.templates['template.html']).toBeDefined() 
           
   describe 'DOM container', ->
     

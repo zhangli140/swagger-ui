@@ -1,9 +1,14 @@
-fs     = require 'fs'
-{exec} = require 'child_process'
-util   = require 'util'
-request = require 'request'
+fs          = require 'fs'
+{exec}      = require 'child_process'
+util        = require 'util'
+request     = require 'request'
+handlebars  = require 'handlebars'
 
-task 'watch', 'Watch all source files for changes and autocompile', ->
+task 'spec', "Run the test suite", ->
+  exec "open spec.html", (err, stdout, stderr) ->
+    throw err if err
+
+task 'watch', 'Watch source files for changes and autocompile', ->
   notify "Watching source files for changes..."
   
   fs.watchFile "src/swagger-ui.coffee", (curr, prev) ->
@@ -12,65 +17,42 @@ task 'watch', 'Watch all source files for changes and autocompile', ->
       
   fs.watchFile "src/swagger-ui-spec.coffee", (curr, prev) ->
     if +curr.mtime isnt +prev.mtime
-      invoke 'bakeSpec'
+      invoke 'bake_spec'
+    
+task 'bake', 'Compile everything into swagger-ui.js', ->
+  # Transpile the spec
+  invoke 'bake_spec'
 
-task 'updateSwagger', 'Download the lastest version of swagger.coffee from Github', ->
-  request "https://raw.github.com/wordnik/swagger.js/master/src/swagger.coffee", (err, response, body) ->
-    fs.writeFile "src/vendor/swagger.coffee", body, 'utf8', (err) ->
+  # Transpile swagger-ui.coffee
+  exec "coffee --compile --output lib/grounds/ src/swagger-ui.coffee", (err, stdout, stderr) ->
+    throw err if err
+    
+    # Precompile the Handlebars template
+    exec "handlebars src/template.html -f lib/grounds/template.js", (err, stdout, stderr) ->
       throw err if err
-      notify "Downloaded the latest swagger.coffee from Github"
+    
+      # Join all the js files into one
+      exec "cat lib/grounds/*.js > lib/swagger-ui.js", (err, stdout, stderr) ->
+      throw err if err
+      
+      notify 'lib/swagger-ui.js is ready'
 
-task 'bakeSpec', 'Compile swagger-ui-spec.coffee to swagger-ui-spec.js', ->
+# This is separate from the regular bake task for faster compilation during development
+task 'bake_spec', 'Compile spec from coffee to js', ->
   exec "coffee --compile --output lib/ src/swagger-ui-spec.coffee ", (err, stdout, stderr) ->
     throw err if err
     notify 'compiled lib/swagger-ui-spec.js'
-
-task 'bake', 'Group coffee files and compile to swagger-ui.js', ->
-
-  # Compile the spec
-  invoke 'bakeSpec'
-
-  beans = new Array
-    
-  # Add swagger.coffee
-  fs.readFile "src/vendor/swagger.coffee", 'utf8', (err, swagger) ->
-    throw err if err
-    beans.push swagger
-
-    # Add handlebars (runtime)
-    fs.readFile "src/vendor/handlebars.runtime.coffee", 'utf8', (err, handlebars) ->
+      
+task 'buy_ingredients', 'Download dependencies from Github', ->
+  request "https://raw.github.com/wordnik/swagger.js/master/lib/swagger.js", (err, response, body) ->
+    fs.writeFile "lib/grounds/swagger.js", body, 'utf8', (err) ->
       throw err if err
-      beans.push handlebars
-
-      # Read the HTML template file
-      fs.readFile "src/template.html", 'utf8', (err, templateContent) ->
-        throw err if err
-
-        # Store the template in a global variable.
-        beans.push "window.swagger_template = \"#{templateContent}\""
-
-        # Read swagger-ui.coffee
-        fs.readFile "src/swagger-ui.coffee", 'utf8', (err, content) ->
-          throw err if err
-          beans.push content
-          
-          # Join coffee beans into a temporary coffee file
-          fs.writeFile "swagger-ui.coffee", beans.join('\n\n'), 'utf8', (err) ->
-            throw err if err
-          
-            # Compile to Javascript
-            exec "coffee --compile --output lib/ swagger-ui.coffee ", (err, stdout, stderr) ->
-              throw err if err
-          
-              # Remove the temporary coffee file
-              fs.unlink "swagger-ui.coffee", (err) ->
-                throw err if err
-                notify 'compiled lib/swagger-ui.js'
-                
-notify = (message = '') -> 
-    options = {
-        title: 'CoffeeScript'
-        image: 'lib/CoffeeScript.png'
-    }
-    console.log message
-    try require('growl') message, options
+      notify "Downloaded the latest swagger.js from Github"
+ 
+notify = (message) -> 
+  return unless message?
+  options =
+    title: 'CoffeeScript'
+    image: 'lib/CoffeeScript.png'
+  console.log message
+  try require('growl') message, options
