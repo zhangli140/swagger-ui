@@ -4,14 +4,14 @@ Swagger UI
 Swagger UI is part of [Swagger](http://swagger.wordnik.com/) project.
 
 Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically 
-generate beautiful documentation and sandbox from a [Swagger-compliant](http://swagger.wordnik.com/spec) API. Because Swagger UI has no
+generate beautiful documentation and sandbox from a [Swagger-compliant](https://github.com/wordnik/swagger-core/wiki) API. Because Swagger UI has no
 dependencies, you can host it in any server environment, or on your local machine.
 
 How to Use It
 -------------
 
 ### Build
-1. Install [CoffeeScript](http://coffeescript.org/#installation) which will give give you [cake](http://coffeescript.org/#cake)
+1. Install [CoffeeScript](http://coffeescript.org/#installation) which will give you [cake](http://coffeescript.org/#cake)
 2. Run cake dist
 3. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
