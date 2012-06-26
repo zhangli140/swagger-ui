@@ -1,6 +1,8 @@
 class OperationView extends Backbone.View
   events: {
-  'click .submit' : 'submitOperation'
+  'click .submit'           : 'submitOperation'
+  'click .response_hider'   : 'hideResponse'
+  'click .toggleOperation'  : 'toggleOperationContent'
   }
 
   initialize: ->
@@ -38,23 +40,40 @@ class OperationView extends Backbone.View
       invocationUrl = @model.urlify(map)
       log 'submitting ' + invocationUrl
       $(".request_url", $(@el)).html "<pre>" + invocationUrl + "</pre>"
+      $(".response_throbber", $(@el)).show()
       $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
 
+  # handler for hide response link
+  hideResponse: (e) ->
+    e?.preventDefault()
+    $(".response", $(@el)).slideUp()
+    $(".response_hider", $(@el)).fadeOut()
 
+
+  # Show response from server
   showResponse: (response) ->
     prettyJson = JSON.stringify(response, null, "\t").replace(/\n/g, "<br>")
     $(".response_body", $(@el)).html prettyJson
-    $(".response", $(@el)).slideDown()
 
+
+  # Show error from server
   showErrorStatus: (data) ->
     @showStatus data
-    $(".response", $(@el)).slideDown()
 
+  # show the status codes
   showCompleteStatus: (data) ->
     @showStatus data
 
+  # puts the response data in UI
   showStatus: (data) ->
     response_body = "<pre>" + JSON.stringify(JSON.parse(data.responseText), null, 2).replace(/\n/g, "<br>") + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + data.getAllResponseHeaders() + "</pre>"
+    $(".response", $(@el)).slideDown()
+    $(".response_hider", $(@el)).show()
+    $(".response_throbber", $(@el)).hide()
+
+  toggleOperationContent: ->
+    elem = $('#' + @model.resourceName + "_" + @model.nickname + "_" + @model.httpMethod + "_content");
+    if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)

@@ -153,11 +153,6 @@ var Docs = {
 
 	collapseOperation: function(elem) {
 		elem.slideUp();
-	},
-
-	toggleOperationContent: function(dom_id) {
-		var elem = $('#' + dom_id);
-		(elem.is(':visible')) ? Docs.collapseOperation(elem) : Docs.expandOperation(elem);
 	}
 
 };
