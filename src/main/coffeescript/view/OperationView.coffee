@@ -35,7 +35,8 @@ class OperationView extends Backbone.View
     if error_free
       map = {}
       for o in form.serializeArray()
-        map[o.name] = o.value
+        if(o.value? && jQuery.trim(o.value).length > 0)
+          map[o.name] = o.value
 
       invocationUrl = @model.urlify(map)
       log 'submitting ' + invocationUrl
