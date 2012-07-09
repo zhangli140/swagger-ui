@@ -38,11 +38,37 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
-      invocationUrl = @model.urlify(map)
+      headerParams = null
+      invocationUrl = 
+        if @model.supportHeaderParams()
+          headerParams = @model.getHeaderParams(map)
+          @model.urlify(map, false)
+        else
+          @model.urlify(map, true)
+
       log 'submitting ' + invocationUrl
+
+
       $(".request_url", $(@el)).html "<pre>" + invocationUrl + "</pre>"
       $(".response_throbber", $(@el)).show()
-      $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
+
+      obj = 
+        type: @model.httpMethod
+        url: invocationUrl
+        headers: headerParams
+        # data: JSON.stringify(@body)
+        dataType: 'json'
+        error: (xhr, textStatus, error) =>
+          @showErrorStatus(xhr, textStatus, error)
+        success: (data) =>
+          @showResponse(data)
+        complete: (data) =>
+          @showCompleteStatus(data)
+
+      obj.contentType = "application/json" if (obj.type.toLowerCase() == "post" or obj.type.toLowerCase() == "put")
+    
+      jQuery.ajax(obj)
+      # $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
 
   # handler for hide response link
   hideResponse: (e) ->
