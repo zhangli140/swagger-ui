@@ -32,6 +32,10 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
     -    src/main/html: the html files, some images and css
     -    src/main/javascript: some legacy javascript referenced by CofffeeScript code
 
+### Header Parameters
+Because of [Cross-Origin Resource Sharing](http://www.w3.org/TR/cors/) restrictions, swagger-ui, by default, does not send header parameters. This can be enabled by [setting the supportHeaderParams to false when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/overhaul/src/main/html/index.html#L45).
+
+
 
 How to Improve It
 -----------------
