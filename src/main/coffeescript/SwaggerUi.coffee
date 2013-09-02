@@ -48,7 +48,7 @@ class SwaggerUi extends Backbone.Router
     @options.url = url
     @headerView.update(url)
     @api = new SwaggerApi(@options)
-    @api.build()
+    #@api.build()
     @api
 
   # This is bound to success handler for SwaggerApi
@@ -75,7 +75,6 @@ class SwaggerUi extends Backbone.Router
       base + url
     else
       base + "/" + url
-
 
   # Shows message on topbar of the ui
   showMessage: (data = '') ->

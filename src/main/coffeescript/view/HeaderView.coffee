@@ -2,7 +2,7 @@ class HeaderView extends Backbone.View
   events: {
     'click #show-pet-store-icon'    : 'showPetStore'
     'click #show-wordnik-dev-icon'  : 'showWordnikDev'
-    'click #explore'                : 'showCustom'
+    'click #refresh'                : 'showCustom'
     'keyup #input_baseUrl'          : 'showCustomOnKeyup'
     'keyup #input_apiKey'           : 'showCustomOnKeyup'
   }
