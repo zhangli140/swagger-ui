@@ -201,23 +201,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['apikey_view'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
-
-
-  buffer += "<div class='key_input_container'>\n  <div class='auth_label'>";
-  if (stack1 = helpers.keyName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.keyName; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</div>\n  <input placeholder=\"api_key\" class=\"auth_input\" id=\"input_apiKey_entry\" name=\"apiKey\" type=\"text\"/>\n  <div class='auth_submit'><a id=\"apply_api_key\" href=\"#\">apply</a></div>\n</div>";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['basic_auth_button_view'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -1047,18 +1030,6 @@ function program4(depth0,data) {
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n";
   return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['password_view'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
-
-
-  return "<div class='password_input_container'>\n  <div class='password_input'>\n    <div class=\"auth_label\">Username</div>\n    <input placeholder=\"username\" class=\"auth_input\" id=\"input_username\" name=\"username\" type=\"text\"/>\n\n    <div class=\"auth_label\">Password</div>\n    <input placeholder=\"password\" class=\"auth_input\" id=\"input_password\" name=\"password\" type=\"password\"/>\n  </div>\n  <div class='auth_submit'><a id=\"password_apply\" href=\"#\">apply</a></div>\n</div>\n";
   });
 })();
 
