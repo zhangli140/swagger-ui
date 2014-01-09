@@ -27,6 +27,7 @@
           <br/>
           <div class="response-content-type" />
         {{/if}}
+
         <form accept-charset='UTF-8' class='sandbox'>
           <div style='margin:0;padding:0;display:inline'></div>
           {{#if parameters}}
@@ -70,6 +71,11 @@
           </div>
           {{/if}}
         </form>
+
+        {{#if customize}}
+        {{customize.fn}}
+        {{/if}}
+
         <div class='response' style='display:none'>
           <h4>Request URL</h4>
           <div class='block request_url'></div>

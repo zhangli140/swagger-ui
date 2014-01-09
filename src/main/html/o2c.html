@@ -1,0 +1,12 @@
+<script>
+if(window.location.hash) {
+    var hash = window.location.hash.substring(1);
+    if(hash.indexOf('error')>-1) {
+
+    } else {
+         var accessToken = hash.substring(hash.indexOf('access_token')+13);
+         window.opener.onOAuthComplete(accessToken);
+    }
+}
+window.close();
+</script>
