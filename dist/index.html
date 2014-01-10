@@ -20,6 +20,8 @@
     var clientId = "aaaa";
     var realm = "foo";
     var scopes = "scope:fun";
+    var state = "";
+    var tokenName = "";
 
     $(function () {
       window.swaggerUi = new SwaggerUi({
@@ -43,16 +45,8 @@
 
     $('#oauth_login').click(function() {
       var authSchemes = window.swaggerUi.api.authSchemes;
-      console.log(authSchemes);
-
-      var getLocation = function(href) {
-        var l = document.createElement("a");
-        l.href = href;
-        return l;
-      };
-
-      var host = window.location.hostname;
-      var redirectUrl = location.protocol + '//' + location.host + "/o2c.html";
+      var host = window.location;
+      var redirectUrl = host.protocol + '//' + host.host + "/o2c.html";
       var url = null;
 
       var p = window.swaggerUi.api.authSchemes;
@@ -63,7 +57,7 @@
             if(o.hasOwnProperty(t) && t === 'implicit') {
               var dets = o[t];
               url = dets.loginEndpoint.url + "?response_type=token";
-              var tokenName = dets.tokenName;
+              tokenName = dets.tokenName;
             }
           }
         }
@@ -72,7 +66,9 @@
       url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
       url += '&realm=' + encodeURIComponent(realm);
       url += '&client_id=' + encodeURIComponent(clientId);
+      url += '&state=' + encodeURIComponent(state);
       url += '&scope=' + encodeURIComponent(scopes);
+
       window.open(url);
     });
 
@@ -88,7 +84,19 @@
   });
 
   function onOAuthComplete(token) {
-    window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "Bearer " + token, "header"));
+    console.log(token);
+    if(token) {
+      if(token.error) {
+
+      }
+      else {
+        var b = token[tokenName];
+        if(b){
+          window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "Bearer " + b, "header"));
+        }
+      }
+    }
+    
   }
 
   </script>
