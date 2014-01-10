@@ -710,6 +710,9 @@ table {
 .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading ul.options li a {
   text-decoration: none;
 }
+.swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading ul.options li.access {
+  color: black;
+}
 .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content {
   border-top: none;
   padding: 10px;

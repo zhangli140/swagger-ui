@@ -21,56 +21,28 @@
     var realm = "foo";
     var scopes = "scope:fun";
     var state = "";
-    var tokenName = "";
 
     $(function () {
       window.swaggerUi = new SwaggerUi({
-      url: "http://localhost:8002/api/api-docs",
-      dom_id: "swagger-ui-container",
-      supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
-      onComplete: function(swaggerApi, swaggerUi){
-        if(console) {
-          console.log("Loaded SwaggerUI")
-        }
-        $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-      },
-      onFailure: function(data) {
-        if(console) {
-          console.log("Unable to Load SwaggerUI");
-          console.log(data);
-        }
-      },
-      docExpansion: "none"
-    });
-
-    $('#oauth_login').click(function() {
-      var authSchemes = window.swaggerUi.api.authSchemes;
-      var host = window.location;
-      var redirectUrl = host.protocol + '//' + host.host + "/o2c.html";
-      var url = null;
-
-      var p = window.swaggerUi.api.authSchemes;
-      for (var key in p) {
-        if (p.hasOwnProperty(key)) {
-          var o = p[key].grantTypes;
-          for(var t in o) {
-            if(o.hasOwnProperty(t) && t === 'implicit') {
-              var dets = o[t];
-              url = dets.loginEndpoint.url + "?response_type=token";
-              tokenName = dets.tokenName;
-            }
+        url: "http://localhost:8002/api/api-docs",
+        dom_id: "swagger-ui-container",
+        supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+        onComplete: function(swaggerApi, swaggerUi){
+          $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+          $('.secured').click(function(button) {
+            if(button.target.checked)
+              handleLogin();
+            false;
+          });
+        },
+        onFailure: function(data) {
+          if(console) {
+            console.log("Unable to Load SwaggerUI");
           }
-        }
+        },
+        docExpansion: "none"
       }
-
-      url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
-      url += '&realm=' + encodeURIComponent(realm);
-      url += '&client_id=' + encodeURIComponent(clientId);
-      url += '&state=' + encodeURIComponent(state);
-      url += '&scope=' + encodeURIComponent(scopes);
-
-      window.open(url);
-    });
+    );
 
     $('#input_apiKey').change(function() {
       var key = $('#input_apiKey')[0].value;
@@ -83,20 +55,52 @@
     window.swaggerUi.load();
   });
 
+  function handleLogin() {
+    var authSchemes = window.swaggerUi.api.authSchemes;
+    var host = window.location;
+    var redirectUrl = host.protocol + '//' + host.host + "/o2c.html";
+    var url = null;
+
+    var p = window.swaggerUi.api.authSchemes;
+    for (var key in p) {
+      if (p.hasOwnProperty(key)) {
+        var o = p[key].grantTypes;
+        for(var t in o) {
+          if(o.hasOwnProperty(t) && t === 'implicit') {
+            var dets = o[t];
+            url = dets.loginEndpoint.url + "?response_type=token";
+            window.swaggerUi.tokenName = dets.tokenName;
+          }
+        }
+      }
+    }
+    url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
+    url += '&realm=' + encodeURIComponent(realm);
+    url += '&client_id=' + encodeURIComponent(clientId);
+    url += '&state=' + encodeURIComponent(state);
+    url += '&scope=' + encodeURIComponent(scopes);
+
+    window.open(url);
+  }
+
   function onOAuthComplete(token) {
     console.log(token);
     if(token) {
       if(token.error) {
-
+        checkbox.each(function(pos){pos.checked = false;});
+        alert(error);
       }
       else {
-        var b = token[tokenName];
+        var b = token[window.swaggerUi.tokenName];
         if(b){
+          var checkbox = $('input[type=checkbox],.secured')
+          checkbox.each(function(pos){
+            checkbox[pos].checked = true;
+          });
           window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "Bearer " + b, "header"));
         }
       }
     }
-    
   }
 
   </script>
@@ -109,7 +113,7 @@
 
     <form id='api_selector'>
       <div class='input icon-btn'>
-        <img id="oauth_login" src="images/pet_store_api.png" title="oauth login">
+        <img id="show-pet-store-icon" src="images/pet_store_api.png" title="Show Swagger Petstore Example Apis">
       </div>
       <div class='input icon-btn'>
         <img id="show-wordnik-dev-icon" src="images/wordnik_api.png" title="Show Wordnik Developer Apis">

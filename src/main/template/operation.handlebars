@@ -14,6 +14,20 @@
           <li>
           <a href='#!/{{resourceName}}/{{nickname}}_{{method}}_{{number}}' class="toggleOperation">{{{summary}}}</a>
           </li>
+          {{#oauth}}
+          <li class='access'>
+            <input class='secured' type='checkbox'></input>
+          </li>
+          {{/oauth}}
+          {{#oauth}}<li class='access'>{{/oauth}}
+          {{#each oauth}}
+            {{#each this}}
+            <div class='oauth_scope'>
+              <div title='{{{this.description}}}'>{{this.scope}}</div>
+            </div>
+            {{/each}}
+          {{/each}}
+          {{#oauth}}</li>{{/oauth}}
         </ul>
       </div>
       <div class='content' id='{{resourceName}}_{{nickname}}_{{method}}_{{number}}_content' style='display:none'>

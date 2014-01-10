@@ -312,9 +312,48 @@ function program8(depth0,data) {
 templates['operation'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+  var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
 
 function program1(depth0,data) {
+  
+  
+  return "\n          <li class='access'>\n            <input class='secured' type='checkbox'></input>\n          </li>\n          ";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "<li class='access'>";
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n            ";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n          ";
+  return buffer;
+  }
+function program6(depth0,data) {
+  
+  var buffer = "", stack1, stack2;
+  buffer += "\n            <div class='oauth_scope'>\n              <div title='";
+  stack2 = ((stack1 = depth0.description),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "'>"
+    + escapeExpression(((stack1 = depth0.scope),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</div>\n            </div>\n            ";
+  return buffer;
+  }
+
+function program8(depth0,data) {
+  
+  
+  return "</li>";
+  }
+
+function program10(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n        <h4>Implementation Notes</h4>\n        <p>";
@@ -325,37 +364,37 @@ function program1(depth0,data) {
   return buffer;
   }
 
-function program3(depth0,data) {
+function program12(depth0,data) {
   
   
   return "\n          <h4>Response Class</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n        ";
   }
 
-function program5(depth0,data) {
+function program14(depth0,data) {
   
   
   return "\n          <h4>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\">Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\">Value</th>\n            <th style=\"width: 200px; max-width: 200px\">Description</th>\n            <th style=\"width: 100px; max-width: 100px\">Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\">Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n          ";
   }
 
-function program7(depth0,data) {
+function program16(depth0,data) {
   
   
   return "\n          <div style='margin:0;padding:0;display:inline'></div>\n          <h4>Error Status Codes</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th>HTTP Status Code</th>\n              <th>Reason</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            \n            </tbody>\n          </table>\n          ";
   }
 
-function program9(depth0,data) {
+function program18(depth0,data) {
   
   
   return "\n          ";
   }
 
-function program11(depth0,data) {
+function program20(depth0,data) {
   
   
   return "\n          <div class='sandbox_header'>\n            <input class='submit' name='commit' type='button' value='Try it out!' />\n            <a href='#' class='response_hider' style='display:none'>Hide Response</a>\n            <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />\n          </div>\n          ";
   }
 
-function program13(depth0,data) {
+function program22(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n        "
@@ -444,7 +483,28 @@ function program13(depth0,data) {
   if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.summary; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</a>\n          </li>\n        </ul>\n      </div>\n      <div class='content' id='";
+  buffer += "</a>\n          </li>\n          ";
+  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
+  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n          ";
+  options = {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data};
+  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n          ";
+  stack1 = helpers.each.call(depth0, depth0.oauth, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n          ";
+  options = {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data};
+  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        </ul>\n      </div>\n      <div class='content' id='";
   if (stack1 = helpers.resourceName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.resourceName; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -461,22 +521,22 @@ function program13(depth0,data) {
   else { stack1 = depth0.number; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "_content' style='display:none'>\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.notes, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.notes, {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n        <form accept-charset='UTF-8' class='sandbox'>\n          <div style='margin:0;padding:0;display:inline'></div>\n          ";
-  stack1 = helpers['if'].call(depth0, depth0.parameters, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.parameters, {hash:{},inverse:self.noop,fn:self.program(14, program14, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n          ";
-  stack1 = helpers['if'].call(depth0, depth0.responseMessages, {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.responseMessages, {hash:{},inverse:self.noop,fn:self.program(16, program16, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n          ";
-  stack1 = helpers['if'].call(depth0, depth0.isReadOnly, {hash:{},inverse:self.program(11, program11, data),fn:self.program(9, program9, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isReadOnly, {hash:{},inverse:self.program(20, program20, data),fn:self.program(18, program18, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n        </form>\n\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.customize, {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.customize, {hash:{},inverse:self.noop,fn:self.program(22, program22, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
   return buffer;
@@ -1494,10 +1554,31 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     OperationView.prototype.initialize = function() {};
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, _i, _j, _k, _len, _len1, _len2, _ref5, _ref6, _ref7;
+      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
+      }
+      this.model.oauth = null;
+      console.log(this.model.authorizations);
+      if (this.model.authorizations) {
+        _ref5 = this.model.authorizations;
+        for (k in _ref5) {
+          v = _ref5[k];
+          if (k === "oauth2") {
+            if (this.model.oauth === null) {
+              this.model.oauth = {};
+            }
+            if (this.model.oauth.scopes === void 0) {
+              this.model.oauth.scopes = [];
+            }
+            for (_i = 0, _len = v.length; _i < _len; _i++) {
+              o = v[_i];
+              this.model.oauth.scopes.push(o);
+              console.log(o);
+            }
+          }
+        }
       }
       $(this.el).html(Handlebars.templates.operation(this.model));
       if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
@@ -1519,9 +1600,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       };
       contentTypeModel.consumes = this.model.consumes;
       contentTypeModel.produces = this.model.produces;
-      _ref5 = this.model.parameters;
-      for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-        param = _ref5[_i];
+      _ref6 = this.model.parameters;
+      for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
+        param = _ref6[_j];
         type = param.type || param.dataType;
         if (type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
@@ -1534,14 +1615,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      _ref6 = this.model.parameters;
-      for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-        param = _ref6[_j];
+      _ref7 = this.model.parameters;
+      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
+        param = _ref7[_k];
         this.addParameter(param, contentTypeModel.consumes);
       }
-      _ref7 = this.model.responseMessages;
-      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-        statusCode = _ref7[_k];
+      _ref8 = this.model.responseMessages;
+      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
+        statusCode = _ref8[_l];
         this.addStatusCode(statusCode);
       }
       return this;
