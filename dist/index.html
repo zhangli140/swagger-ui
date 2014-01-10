@@ -21,7 +21,6 @@
     var realm = "foo";
     var scopes = "scope:fun";
 
-
     $(function () {
       window.swaggerUi = new SwaggerUi({
       url: "http://localhost:8002/api/api-docs",
@@ -46,8 +45,14 @@
       var authSchemes = window.swaggerUi.api.authSchemes;
       console.log(authSchemes);
 
-      // TODO: extract from window.location.href
-      var redirectUrl = "http://localhost:8000/o2c.html";
+      var getLocation = function(href) {
+        var l = document.createElement("a");
+        l.href = href;
+        return l;
+      };
+
+      var host = window.location.hostname;
+      var redirectUrl = location.protocol + '//' + location.host + "/o2c.html";
       var url = null;
 
       var p = window.swaggerUi.api.authSchemes;
