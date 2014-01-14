@@ -316,48 +316,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  
-  return "\n          <li class='access'>\n            <input class='secured' type='checkbox'></input>\n          </li>\n          ";
-  }
-
-function program3(depth0,data) {
-  
-  
-  return "\n          <li>\n          <img class=\"auth_img\" width=\"20px\" height=\"20px\" src=\"/images/oauth.png\">";
-  }
-
-function program5(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n            <div id=\"api_information_panel\" style=\"top: 526px; left: 776px; display: none;\">\n            ";
-  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n            ";
-  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
-  return buffer;
-  }
-function program6(depth0,data) {
-  
-  var buffer = "", stack1, stack2;
-  buffer += "\n              <div title='";
-  stack2 = ((stack1 = depth0.description),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
-  if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "'>"
-    + escapeExpression(((stack1 = depth0.scope),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</div>\n            ";
-  return buffer;
-  }
-
-function program8(depth0,data) {
-  
-  
-  return "\n            </div>\n            ";
-  }
-
-function program10(depth0,data) {
-  
   var buffer = "", stack1;
   buffer += "\n        <h4>Implementation Notes</h4>\n        <p>";
   if (stack1 = helpers.notes) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -365,6 +323,45 @@ function program10(depth0,data) {
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</p>\n        ";
   return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n        <div class=\"auth\">\n        <span class=\"api-ic ic-error\"></span>";
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n          <div id=\"api_information_panel\" style=\"top: 526px; left: 776px; display: none;\">\n          ";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n          </div>\n        ";
+  return buffer;
+  }
+function program6(depth0,data) {
+  
+  var buffer = "", stack1, stack2;
+  buffer += "\n            <div title='";
+  stack2 = ((stack1 = depth0.description),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "'>"
+    + escapeExpression(((stack1 = depth0.scope),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</div>\n          ";
+  return buffer;
+  }
+
+function program8(depth0,data) {
+  
+  
+  return "</div>";
+  }
+
+function program10(depth0,data) {
+  
+  
+  return "\n        <div class='access'>\n          <span class=\"api-ic ic-off\" title=\"click to authenticate\"></span>\n        </div>\n        ";
   }
 
 function program12(depth0,data) {
@@ -486,22 +483,7 @@ function program22(depth0,data) {
   if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.summary; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</a>\n          </li>\n          ";
-  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
-  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
-  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
-  options = {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data};
-  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
-  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
-  stack1 = helpers.each.call(depth0, depth0.oauth, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          </li>\n        </ul>\n      </div>\n      <div class='content' id='";
+  buffer += "</a>\n          </li>\n        </ul>\n      </div>\n      <div class='content' id='";
   if (stack1 = helpers.resourceName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.resourceName; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -518,7 +500,28 @@ function program22(depth0,data) {
   else { stack1 = depth0.number; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "_content' style='display:none'>\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.notes, {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.notes, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        ";
+  options = {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data};
+  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        ";
+  stack1 = helpers.each.call(depth0, depth0.oauth, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        ";
+  options = {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data};
+  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        ";
+  options = {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data};
+  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n        ";
   stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
@@ -1504,7 +1507,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     ResourceView.prototype.render = function() {
       var operation, _i, _len, _ref4;
-      console.log(this.model.description);
       $(this.el).html(Handlebars.templates.resource(this.model));
       this.number = 0;
       _ref4 = this.model.operationsArray;
@@ -1546,8 +1548,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click .submit': 'submitOperation',
       'click .response_hider': 'hideResponse',
       'click .toggleOperation': 'toggleOperationContent',
-      'mouseenter .auth_img': 'mouseEnter',
-      'mouseout .auth_img': 'mouseExit'
+      'mouseenter .api-ic': 'mouseEnter',
+      'mouseout .api-ic': 'mouseExit'
     };
 
     OperationView.prototype.initialize = function() {};
@@ -1772,13 +1774,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           headerParams[param.name] = map[param.name];
         }
       }
-      console.log(headerParams);
       _ref8 = form.find('input[type~="file"]');
       for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
         el = _ref8[_l];
         bodyParam.append($(el).attr('name'), el.files[0]);
       }
-      console.log(bodyParam);
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
       $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
       obj = {

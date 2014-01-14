@@ -2,12 +2,12 @@ class OperationView extends Backbone.View
   invocationUrl: null
 
   events: {
-  'submit .sandbox'         : 'submitOperation'
-  'click .submit'           : 'submitOperation'
-  'click .response_hider'   : 'hideResponse'
-  'click .toggleOperation'  : 'toggleOperationContent'
-  'mouseenter .auth_img'    : 'mouseEnter'
-  'mouseout .auth_img'      : 'mouseExit'
+    'submit .sandbox'         : 'submitOperation'
+    'click .submit'           : 'submitOperation'
+    'click .response_hider'   : 'hideResponse'
+    'click .toggleOperation'  : 'toggleOperationContent'
+    'mouseenter .api-ic'      : 'mouseEnter'
+    'mouseout .api-ic'        : 'mouseExit'
   }
 
   initialize: ->
@@ -170,13 +170,9 @@ class OperationView extends Backbone.View
       if param.paramType is 'header'
         headerParams[param.name] = map[param.name]
 
-    console.log headerParams
-
     # add files
     for el in form.find('input[type~="file"]')
       bodyParam.append($(el).attr('name'), el.files[0])
-
-    console.log(bodyParam)
 
     @invocationUrl = 
       if @model.supportHeaderParams()
