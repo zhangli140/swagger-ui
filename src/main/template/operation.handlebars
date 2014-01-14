@@ -19,15 +19,19 @@
             <input class='secured' type='checkbox'></input>
           </li>
           {{/oauth}}
-          {{#oauth}}<li class='access'>{{/oauth}}
+          {{#oauth}}
+          <li>
+          <img class="auth_img" width="20px" height="20px" src="/images/oauth.png">{{/oauth}}
           {{#each oauth}}
+            <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
             {{#each this}}
-            <div class='oauth_scope'>
               <div title='{{{this.description}}}'>{{this.scope}}</div>
+            {{/each}}
+            {{#each this}}
             </div>
             {{/each}}
           {{/each}}
-          {{#oauth}}</li>{{/oauth}}
+          </li>
         </ul>
       </div>
       <div class='content' id='{{resourceName}}_{{nickname}}_{{method}}_{{number}}_content' style='display:none'>

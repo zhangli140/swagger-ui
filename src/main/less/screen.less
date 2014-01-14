@@ -1,6 +1,27 @@
 @import 'src/main/less/reset.less';
 @import 'src/main/less/specs.less';
 
+
+#api_information_panel {
+    position: absolute;
+    background: #FFF;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    font-size: 13px;
+    max-width: 300px;
+    line-height: 30px;
+    padding: 5px;
+    p {
+        .api-msg-enabled {
+            color: green;
+        }
+        .api-msg-disabled {
+            color: red;
+        }
+    }
+}
+
 #header {
     background-color: #89bf04;
     padding: 14px;

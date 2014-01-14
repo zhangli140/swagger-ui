@@ -6,16 +6,45 @@ class OperationView extends Backbone.View
   'click .submit'           : 'submitOperation'
   'click .response_hider'   : 'hideResponse'
   'click .toggleOperation'  : 'toggleOperationContent'
+  'mouseenter .auth_img'    : 'mouseEnter'
+  'mouseout .auth_img'      : 'mouseExit'
   }
 
   initialize: ->
+
+  mouseEnter: (e) ->
+    elem = $(e.currentTarget.parentNode).find('#api_information_panel')
+    x = event.pageX
+    y = event.pageY
+    scX = $(window).scrollLeft()
+    scY = $(window).scrollTop()
+    scMaxX = scX + $(window).width()
+    scMaxY = scY + $(window).height()
+    wd = elem.width()
+    hgh = elem.height()
+
+    if (x + wd > scMaxX)
+      x = scMaxX - wd
+    if (x < scX)
+      x = scX
+    if (y + hgh > scMaxY)
+      y = scMaxY - hgh
+    if (y < scY)
+      y = scY
+    pos = {}
+    pos.top = y
+    pos.left = x
+    elem.css(pos)
+    $(e.currentTarget.parentNode).find('#api_information_panel').show()
+
+  mouseExit: (e) ->
+    $(e.currentTarget.parentNode).find('#api_information_panel').hide()
 
   render: ->
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
     @model.oauth = null
-    console.log @model.authorizations
     if @model.authorizations
       for k, v of @model.authorizations
         if k == "oauth2"
@@ -25,7 +54,6 @@ class OperationView extends Backbone.View
             @model.oauth.scopes = []
           for o in v
             @model.oauth.scopes.push o
-            console.log o
 
     $(@el).html(Handlebars.templates.operation(@model))
 
