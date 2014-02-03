@@ -25,7 +25,7 @@ function handleLogin() {
           '<p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.',
             '<a href="#">Learn how to use</a>',
           '</p>',
-          '<p><strong>' + appName + '</strong> API declares the following scopes. Select which ones you want to grant to APIs Explorer.</p>',
+          '<p><strong>' + appName + '</strong> API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>',
           '<ul class="api-popup-scopes">',
           '</ul>',
           '<p class="error-msg"></p>',
@@ -93,6 +93,8 @@ function handleLogin() {
       scopes.push($(o[k]).attr("scope"));
     }
 
+    window.enabledScopes=scopes;
+
     url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
     url += '&realm=' + encodeURIComponent(realm);
     url += '&client_id=' + encodeURIComponent(clientId);
@@ -111,6 +113,7 @@ function handleLogout() {
   for(key in window.authorizations.authz){
     window.authorizations.remove(key)
   }
+  window.enabledScopes = null;
   $('.api-ic.ic-on').addClass('ic-off');
   $('.api-ic.ic-on').removeClass('ic-on');
 
@@ -144,8 +147,16 @@ function onOAuthComplete(token) {
       var b = token[window.swaggerUi.tokenName];
       if(b){
         // set the checkbox
+
+        // if all roles are satisfied:
+        $.each($('.api-ic.ic-off, .api-ic.ic-on'), function(k, v) {
+          console.log(k);
+          console.log(v);
+        })
+
         $('.api-ic.ic-off').addClass('ic-on');
         $('.api-ic.ic-off').removeClass('ic-off');
+
 
         // set the info box
         $('.api-ic.ic-error').addClass('ic-warning');
