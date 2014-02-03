@@ -1639,7 +1639,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         type = param.type || param.dataType;
         if (type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
-            console.log("set content type ");
+            log("set content type ");
             contentTypeModel.consumes = 'multipart/form-data';
           }
         }
@@ -1750,7 +1750,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     OperationView.prototype.handleFileUpload = function(map, form) {
       var bodyParam, el, headerParams, o, obj, param, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8,
         _this = this;
-      console.log("it's a file upload");
+      log("it's a file upload");
       _ref5 = form.serializeArray();
       for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
         o = _ref5[_i];
@@ -1774,11 +1774,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           headerParams[param.name] = map[param.name];
         }
       }
+      log(headerParams);
       _ref8 = form.find('input[type~="file"]');
       for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
         el = _ref8[_l];
         bodyParam.append($(el).attr('name'), el.files[0]);
       }
+      log(bodyParam);
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
       $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
       obj = {
@@ -1814,7 +1816,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       o.content.data = data.responseText;
       o.getHeaders = function() {
         return {
-          "Content-Type": data.getResponseHeader("Content-Type")
+          "Content-Type": data.headers("Content-Type")
         };
       };
       o.request = {};
@@ -1939,34 +1941,34 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return formatted;
     };
 
-    OperationView.prototype.showStatus = function(data) {
+    OperationView.prototype.showStatus = function(response) {
       var code, content, contentType, headers, pre, response_body;
-      content = data.content.data;
-      headers = data.getHeaders();
-      contentType = headers["Content-Type"];
-      if (content === void 0) {
+      content = response.data;
+      headers = response.headers;
+      contentType = headers["Content-Type"] ? headers["Content-Type"].split(";")[0].trim() : null;
+      if (!content) {
         code = $('<code />').text("no content");
         pre = $('<pre class="json" />').append(code);
-      } else if (contentType.indexOf("application/json") === 0 || contentType.indexOf("application/hal+json") === 0) {
-        code = $('<code />').text(JSON.stringify(JSON.parse(content), null, 2));
+      } else if (contentType === "application/json" || /\+json$/.test(contentType)) {
+        code = $('<code />').text(JSON.stringify(JSON.parse(content), null, "  "));
         pre = $('<pre class="json" />').append(code);
-      } else if (contentType.indexOf("application/xml") === 0) {
+      } else if (contentType === "application/xml" || /\+xml$/.test(contentType)) {
         code = $('<code />').text(this.formatXml(content));
         pre = $('<pre class="xml" />').append(code);
-      } else if (contentType.indexOf("text/html") === 0) {
+      } else if (contentType === "text/html") {
         code = $('<code />').html(content);
         pre = $('<pre class="xml" />').append(code);
-      } else if (contentType.indexOf("image/") === 0) {
-        pre = $('<img>').attr('src', data.request.url);
+      } else if (/^image\//.test(contentType)) {
+        pre = $('<img>').attr('src', response.url);
       } else {
         code = $('<code />').text(content);
         pre = $('<pre class="json" />').append(code);
       }
       response_body = pre;
-      $(".request_url", $(this.el)).html("<pre>" + data.request.url + "</pre>");
-      $(".response_code", $(this.el)).html("<pre>" + data.status + "</pre>");
+      $(".request_url", $(this.el)).html("<pre>" + response.url + "</pre>");
+      $(".response_code", $(this.el)).html("<pre>" + response.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
-      $(".response_headers", $(this.el)).html("<pre>" + JSON.stringify(data.getHeaders(), null, "  ").replace(/\n/g, "<br>") + "</pre>");
+      $(".response_headers", $(this.el)).html("<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>");
       $(".response", $(this.el)).slideDown();
       $(".response_hider", $(this.el)).show();
       $(".response_throbber", $(this.el)).hide();
