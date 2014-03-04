@@ -1243,6 +1243,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     SwaggerUi.prototype.updateSwaggerUi = function(data) {
       this.options.url = data.url;
+      delete this.options.obj;
       return this.load();
     };
 
