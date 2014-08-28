@@ -11,6 +11,7 @@ class OperationView extends Backbone.View
   }
 
   initialize: ->
+    @model.type = 'operation'
 
   mouseEnter: (e) ->
     elem = $(e.currentTarget.parentNode).find('#api_information_panel')
@@ -76,9 +77,8 @@ class OperationView extends Backbone.View
 
     for param in @model.parameters
       type = param.type || param.dataType
-      if type.toLowerCase() == 'file'
+      if type and type.toLowerCase() == 'file'
         if !contentTypeModel.consumes
-          log "set content type "
           contentTypeModel.consumes = 'multipart/form-data'
 
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
@@ -88,7 +88,8 @@ class OperationView extends Backbone.View
     @addParameter param, contentTypeModel.consumes for param in @model.parameters
 
     # Render each response code
-    @addStatusCode statusCode for statusCode in @model.responseMessages
+    if @model and @model.responseMessages 
+      @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
 
@@ -170,8 +171,6 @@ class OperationView extends Backbone.View
     for param in @model.parameters
       if param.paramType is 'header'
         headerParams[param.name] = map[param.name]
-
-    log headerParams
 
     # add files
     for el in form.find('input[type~="file"]')

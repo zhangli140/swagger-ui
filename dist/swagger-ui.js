@@ -93,7 +93,6 @@ var Docs = {
 		switch (fragments.length) {
 			case 1:
 				// Expand all operations for the resource and scroll to it
-				log('shebang resource:' + fragments[0]);
 				var dom_id = 'resource_' + fragments[0];
 
 				Docs.expandEndpointListForResource(fragments[0]);
@@ -279,9 +278,9 @@ function program6(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "<div class='info_license'><a href='"
-    + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.licenseUrl)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license)),stack1 == null || stack1 === false ? stack1 : stack1.url)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "'>"
-    + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license)),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</a></div>";
   return buffer;
   }
@@ -307,7 +306,7 @@ function program8(depth0,data) {
     + "\n        ";
   stack1 = helpers['if'].call(depth0, depth0.apiVersion, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "]</h4>\n    </div>\n</div>\n";
+  buffer += "]\n        <span style=\"float: right\"><img height=\"30px\" src=\"http://petstore.swagger.wordnik.com/validator?url=http://petstore.swagger.wordnik.com/v2/swagger.json\"></span></h4>\n    </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -1074,7 +1073,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   
-  return " : ";
+  return " ";
   }
 
   buffer += "<div class='heading'>\n  <h2>\n    <a href='#!/";
@@ -1085,7 +1084,7 @@ function program1(depth0,data) {
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "');\">";
+    + "');\">/";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1182,15 +1181,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"description\">\n        ";
+  buffer += "<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\">Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    </div>\n\n    <div class=\"snippet\">\n        <pre><code>";
+  buffer += "\n  </div>\n\n  <div class=\"snippet\">\n    <pre><code>";
   if (stack1 = helpers.sampleJSON) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.sampleJSON; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</code></pre>\n        <small class=\"notice\"></small>\n    </div>\n</div>\n\n";
+    + "</code></pre>\n    <small class=\"notice\"></small>\n  </div>\n</div>\n\n";
   return buffer;
   });
 })();
@@ -1451,9 +1450,22 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     MainView.prototype.initialize = function(opts) {
-      var route, sorter, sorterName, _i, _len, _ref3;
+      var info, license, route, sorter, sorterName, _i, _len, _ref3;
       if (opts == null) {
         opts = {};
+      }
+      if (this.model.info) {
+        info = this.model.info;
+        if (typeof info.license !== 'object') {
+          license = {};
+          if (info.license) {
+            license.type = info.license;
+          }
+          if (info.licenseUrl) {
+            license.url = info.licenseUrl;
+          }
+          info.license = license;
+        }
       }
       if (opts.swaggerOptions.sorter) {
         sorterName = opts.swaggerOptions.sorter;
@@ -1576,7 +1588,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'mouseout .api-ic': 'mouseExit'
     };
 
-    OperationView.prototype.initialize = function() {};
+    OperationView.prototype.initialize = function() {
+      return this.model.type = 'operation';
+    };
 
     OperationView.prototype.mouseEnter = function(e) {
       var elem, hgh, pos, scMaxX, scMaxY, scX, scY, wd, x, y;
@@ -1649,8 +1663,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           tagName: 'div'
         });
         $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
-      } else {
-        $('.model-signature', $(this.el)).html(this.model.type);
       }
       contentTypeModel = {
         isParam: false
@@ -1661,9 +1673,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
         param = _ref6[_j];
         type = param.type || param.dataType;
-        if (type.toLowerCase() === 'file') {
+        if (type && type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
-            log("set content type ");
             contentTypeModel.consumes = 'multipart/form-data';
           }
         }
@@ -1677,10 +1688,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         param = _ref7[_k];
         this.addParameter(param, contentTypeModel.consumes);
       }
-      _ref8 = this.model.responseMessages;
-      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
-        statusCode = _ref8[_l];
-        this.addStatusCode(statusCode);
+      if (this.model && this.model.responseMessages) {
+        _ref8 = this.model.responseMessages;
+        for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
+          statusCode = _ref8[_l];
+          this.addStatusCode(statusCode);
+        }
       }
       return this;
     };
@@ -1800,7 +1813,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           headerParams[param.name] = map[param.name];
         }
       }
-      log(headerParams);
       _ref8 = form.find('input[type~="file"]');
       for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
         el = _ref8[_l];
@@ -2084,7 +2096,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     ParameterView.prototype.initialize = function() {
-      return Handlebars.registerHelper('isArray', function(param, opts) {
+      return Handlebars.registerHelper('isArray', this.model.paramType = this.model.paramType || this.model["in"], function(param, opts) {
         if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
           return opts.fn(this);
         } else {
@@ -2099,7 +2111,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
-      if (type.toLowerCase() === 'file') {
+      if (type && type.toLowerCase() === 'file') {
         this.model.isFile = true;
       }
       template = this.template();
@@ -2186,6 +2198,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(this.el).html(template(this.model));
       this.switchToSnippet();
       this.isParam = this.model.isParam;
+      log(this.model);
       if (this.isParam) {
         $('.notice', $(this.el)).text('Click to set as parameter value');
       }

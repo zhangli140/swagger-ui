@@ -1,6 +1,7 @@
 class ParameterView extends Backbone.View
   initialize: ->
     Handlebars.registerHelper 'isArray',
+      @model.paramType = @model.paramType || @model.in
       (param, opts) ->
         if param.type.toLowerCase() == 'array' || param.allowMultiple
           opts.fn(@)
@@ -10,7 +11,7 @@ class ParameterView extends Backbone.View
   render: ->
     type = @model.type || @model.dataType
     @model.isBody = true if @model.paramType == 'body'
-    @model.isFile = true if type.toLowerCase() == 'file'
+    @model.isFile = true if type and type.toLowerCase() == 'file'
 
     template = @template()
     $(@el).html(template(@model))

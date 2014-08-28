@@ -11,6 +11,7 @@ class ResourceView extends Backbone.View
       counter = 0
 
       id = operation.nickname
+
       while typeof methods[id] isnt 'undefined'
         id = id + "_" + counter
         counter += 1
@@ -27,7 +28,12 @@ class ResourceView extends Backbone.View
     operation.number = @number
 
     # Render an operation and add it to operations li
-    operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint', swaggerOptions: @options.swaggerOptions})
+    operationView = new OperationView({
+      model: operation,
+      tagName: 'li',
+      className: 'endpoint',
+      swaggerOptions: @options.swaggerOptions
+    })
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++

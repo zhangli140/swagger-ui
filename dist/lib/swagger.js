@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.37
+// version 2.0.34
 
 var __bind = function(fn, me){
   return function(){
@@ -45,39 +45,40 @@ if (!('map' in Array.prototype)) {
 }
 
 Object.keys = Object.keys || (function () {
-  var hasOwnProperty = Object.prototype.hasOwnProperty,
-    hasDontEnumBug = !{toString:null}.propertyIsEnumerable("toString"),
-    DontEnums = [
-      'toString',
-      'toLocaleString',
-      'valueOf',
-      'hasOwnProperty',
-      'isPrototypeOf',
-      'propertyIsEnumerable',
-      'constructor'
-    ],
-  DontEnumsLength = DontEnums.length;
+    var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !{toString:null}.propertyIsEnumerable("toString"),
+        DontEnums = [
+            'toString',
+            'toLocaleString',
+            'valueOf',
+            'hasOwnProperty',
+            'isPrototypeOf',
+            'propertyIsEnumerable',
+            'constructor'
+        ],
+        DontEnumsLength = DontEnums.length;
 
-  return function (o) {
-    if (typeof o != "object" && typeof o != "function" || o === null)
-      throw new TypeError("Object.keys called on a non-object");
+    return function (o) {
+        if (typeof o != "object" && typeof o != "function" || o === null)
+            throw new TypeError("Object.keys called on a non-object");
 
-    var result = [];
-    for (var name in o) {
-      if (hasOwnProperty.call(o, name))
-        result.push(name);
-    }
+        var result = [];
+        for (var name in o) {
+            if (hasOwnProperty.call(o, name))
+                result.push(name);
+        }
 
-    if (hasDontEnumBug) {
-      for (var i = 0; i < DontEnumsLength; i++) {
-        if (hasOwnProperty.call(o, DontEnums[i]))
-          result.push(DontEnums[i]);
-      }
-    }
+        if (hasDontEnumBug) {
+            for (var i = 0; i < DontEnumsLength; i++) {
+                if (hasOwnProperty.call(o, DontEnums[i]))
+                    result.push(DontEnums[i]);
+            }
+        }
 
-    return result;
-  };
+        return result;
+    };
 })();
+
 
 var SwaggerApi = function(url, options) {
   this.url = null;
@@ -157,7 +158,6 @@ SwaggerApi.prototype.buildFromSpec = function(response) {
   }
   this.apis = {};
   this.apisArray = [];
-  this.consumes = response.consumes;
   this.produces = response.produces;
   this.authSchemes = response.authorizations;
   if (response.info != null) {
@@ -175,13 +175,13 @@ SwaggerApi.prototype.buildFromSpec = function(response) {
       }
     }
   }
-  if (response.basePath)
+  if (response.basePath) {
     this.basePath = response.basePath;
-  else if (this.url.indexOf('?') > 0)
+  } else if (this.url.indexOf('?') > 0) {
     this.basePath = this.url.substring(0, this.url.lastIndexOf('?'));
-  else
+  } else {
     this.basePath = this.url;
-
+  }
   if (isApi) {
     var newName = response.resourcePath.replace(/\//g, '');
     this.resourcePath = response.resourcePath;
@@ -321,8 +321,8 @@ var SwaggerResource = function(resourceObj, api) {
   var _this = this;
   this.api = api;
   this.api = this.api;
-  consumes = (this.consumes | []);
-  produces = (this.produces | []);
+  produces = [];
+  consumes = [];
   this.path = this.api.resourcePath != null ? this.api.resourcePath : resourceObj.path;
   this.description = resourceObj.description;
 
@@ -1104,47 +1104,27 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
   var body = params.body;
 
   // encode the body for form submits
-  if (headers["Content-Type"]) {
+  if (headers["Accept"] && headers["Accept"].indexOf("application/x-www-form-urlencoded") === 0) {
+    var fields = {};
+    var possibleParams = {};
     var values = {};
-    var i;
-    var operationParams = this.operation.parameters;
-    for(i = 0; i < operationParams.length; i++) {
-      var param = operationParams[i];
-      if(param.paramType === "form")
-        values[param.name] = param;
+    var key;
+    for(key in formParams){
+      var param = formParams[key];
+      values[param.name] = param;
     }
 
-    if(headers["Content-Type"].indexOf("application/x-www-form-urlencoded") === 0) {
-      var encoded = "";
-      var key;
-      for(key in values) {
-        value = this.params[key];
-        if(typeof value !== 'undefined'){
-          if(encoded !== "")
-            encoded += "&";
-          encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
-        }
+    var encoded = "";
+    var key;
+    for(key in values) {
+      value = this.params[key];
+      if(typeof value !== 'undefined'){
+        if(encoded !== "")
+          encoded += "&";
+        encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
       }
-      body = encoded;
     }
-    else if (headers["Content-Type"].indexOf("multipart/form-data") === 0) {
-      // encode the body for form submits
-      var data = "";
-      var boundary = "----SwaggerFormBoundary" + Date.now();
-      var key;
-      for(key in values) {
-        value = this.params[key];
-        if(typeof value !== 'undefined') {
-          data += '--' + boundary + '\n';
-          data += 'Content-Disposition: form-data; name="' + key + '"';
-          data += '\n\n';
-          data += value + "\n";
-        }
-      }
-      data += "--" + boundary + "--\n";
-      headers["Content-Type"] = "multipart/form-data; boundary=" + boundary;
-      body = data;
-    }
+    body = encoded;
   }
 
   if (!((this.headers != null) && (this.headers.mock != null))) {
@@ -1191,7 +1171,7 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
 SwaggerRequest.prototype.setHeaders = function(params, operation) {
   // default type
   var accepts = "application/json";
-  var consumes = "application/json";
+  var contentType = null;
 
   var allDefinedParams = this.operation.parameters;
   var definedFormParams = [];
@@ -1223,9 +1203,9 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
     // if any form params, content type must be set
     if(definedFormParams.length > 0) {
       if(definedFileParams.length > 0)
-        consumes = "multipart/form-data";
+        accepts = "multipart/form-data";
       else
-        consumes = "application/x-www-form-urlencoded";
+        accepts = "application/x-www-form-urlencoded";
     }
     else if (this.type == "DELETE")
       body = "{}";
@@ -1233,10 +1213,10 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
       accepts = null;
   }
 
-  if (consumes && this.operation.consumes) {
-    if (this.operation.consumes.indexOf(consumes) === -1) {
-      log("server doesn't consume " + consumes + ", try " + JSON.stringify(this.operation.consumes));
-      consumes = this.operation.consumes[0];
+  if (contentType && this.operation.consumes) {
+    if (this.operation.consumes.indexOf(contentType) === -1) {
+      log("server doesn't consume " + contentType + ", try " + JSON.stringify(this.operation.consumes));
+      contentType = this.operation.consumes[0];
     }
   }
 
@@ -1251,11 +1231,33 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
       accepts = this.operation.produces[0];
     }
   }
+  if (contentType && contentType.indexOf("application/x-www-form-urlencoded") === 0) {
+    var fields = {};
+    var possibleParams = {};
+    var values = {};
+    var key;
+    for(key in formParams){
+      var param = formParams[key];
+      values[param.name] = param;
+    }
 
-  if ((consumes && body !== "") || (consumes === "application/x-www-form-urlencoded"))
-    headers["Content-Type"] = consumes;
+    var encoded = "";
+    var key;
+    for(key in values) {
+      value = this.params[key];
+      if(typeof value !== 'undefined'){
+        if(encoded !== "")
+          encoded += "&";
+        encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+      }
+    }
+    body = encoded;
+  }
+  if ((contentType && body !== "") || (contentType === "application/x-www-form-urlencoded"))
+    headers["Content-Type"] = contentType;
   if (accepts)
     headers["Accept"] = accepts;
+
   return headers;
 }
 

@@ -5,6 +5,18 @@ class MainView extends Backbone.View
   }
 
   initialize: (opts={}) ->
+    if @model.info
+      info = @model.info
+
+      # convert to new license format
+      if typeof info.license isnt 'object' 
+        license = {}
+        if info.license
+          license.type = info.license
+        if info.licenseUrl
+          license.url = info.licenseUrl
+        info.license = license
+
     if opts.swaggerOptions.sorter
       sorterName = opts.swaggerOptions.sorter
       sorter = sorters[sorterName]

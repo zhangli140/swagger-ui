@@ -1,8 +1,8 @@
 class SignatureView extends Backbone.View
   events: {
-  'click a.description-link'       : 'switchToDescription'
-  'click a.snippet-link'           : 'switchToSnippet'
-  'mousedown .snippet'          : 'snippetToTextArea'
+    'click a.description-link'       : 'switchToDescription'
+    'click a.snippet-link'           : 'switchToSnippet'
+    'mousedown .snippet'             : 'snippetToTextArea'
   }
 
   initialize: ->
@@ -14,6 +14,8 @@ class SignatureView extends Backbone.View
     @switchToSnippet()
 
     @isParam = @model.isParam
+
+    log @model
 
     if @isParam
       $('.notice', $(@el)).text('Click to set as parameter value')
