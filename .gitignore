@@ -20,3 +20,6 @@ swagger-ui.sublime-workspace
 .idea
 .project
 node_modules/*
+/node/
+/node_modules/
+/pom_noup.xml
